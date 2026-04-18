@@ -2,8 +2,19 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ClipCraft AI v7 — Viral Clip Studio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ClipCraft AI">
+<meta name="application-name" content="ClipCraft AI">
+<meta name="theme-color" content="#08080f">
+<meta name="description" content="AI-powered viral clip finder — 100% free, works on any device">
+<meta name="keywords" content="clipcraft, viral clips, AI video, tiktok, reels, shorts">
+<title>ClipCraft AI — Viral Clip Studio</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="icon-512.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -2006,6 +2017,52 @@ function toast(msg,type){
   t.style.borderColor=c[type]||c.info;t.classList.add('show');clearTimeout(_tt);
   _tt=setTimeout(()=>t.classList.remove('show'),5000);
 }
+</script>
+
+<!-- PWA SERVICE WORKER REGISTRATION -->
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+      .then(reg => console.log('SW registered:', reg.scope))
+      .catch(err => console.log('SW failed:', err));
+  });
+}
+
+// Install prompt — show "Add to Home Screen" banner
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  // Show install button after 3 seconds
+  setTimeout(() => {
+    const btn = document.createElement('div');
+    btn.id = 'installBtn';
+    btn.innerHTML = '📲 Install App on Phone';
+    btn.style.cssText = `
+      position:fixed;bottom:80px;left:50%;transform:translateX(-50%);
+      background:linear-gradient(135deg,#7c5cfc,#c084fc);
+      color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:14px;
+      padding:12px 24px;border-radius:100px;cursor:pointer;z-index:9999;
+      box-shadow:0 4px 20px rgba(124,92,252,.5);white-space:nowrap;
+      border:none;animation:pulse 2s infinite;
+    `;
+    btn.onclick = async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const result = await deferredPrompt.userChoice;
+        deferredPrompt = null;
+        btn.remove();
+      }
+    };
+    // Only show if not already installed
+    if (!window.matchMedia('(display-mode: standalone)').matches) {
+      document.body.appendChild(btn);
+      // Auto-hide after 10s
+      setTimeout(() => btn.remove(), 10000);
+    }
+  }, 3000);
+});
 </script>
 </body>
 </html>
