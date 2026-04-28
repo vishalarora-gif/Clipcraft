@@ -2,12 +2,12 @@
   "name": "ClipCraft AI — Viral Clip Studio",
   "short_name": "ClipCraft AI",
   "description": "AI-powered viral clip finder — find the best moments from any video. 100% free.",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "/Clipcraft/",
+  "scope": "/Clipcraft/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#08080f",
-  "theme_color": "#08080f",
+  "theme_color": "#7c5cfc",
   "lang": "en",
   "categories": ["productivity", "video", "utilities"],
   "icons": [
@@ -30,7 +30,8 @@
       "name": "Find Viral Clips",
       "short_name": "Find Clips",
       "description": "Upload a video and find viral clips",
-      "url": "/"
+      "url": "/Clipcraft/"
     }
-  ]
+  ],
+  "prefer_related_applications": false
 }
